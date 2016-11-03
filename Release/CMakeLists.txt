@@ -83,7 +83,7 @@ elseif(UNIX) # This includes OSX
   endif()
   # This should prevent linking against the system provided 0.9.8y
   set(_OPENSSL_VERSION "")
-  find_package(OpenSSL 1.0.0 REQUIRED)
+  find_package(OpenSSL REQUIRED)
 
   option(BUILD_SHARED_LIBS "Build shared Libraries." ON)
   option(BUILD_TESTS "Build tests." ON)
@@ -150,7 +150,7 @@ elseif((CMAKE_CXX_COMPILER_ID MATCHES "Clang") OR IOS)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   message("-- Setting gcc options")
 
-  set(WARNINGS "-Wall -Wextra -Wunused-parameter -Wcast-align -Wcast-qual -Wconversion -Wformat=2 -Winit-self -Winvalid-pch -Wmissing-format-attribute -Wmissing-include-dirs -Wpacked -Wredundant-decls -Wunreachable-code")
+  #set(WARNINGS "-Wall -Wextra -Wunused-parameter -Wcast-align -Wcast-qual -Wconversion -Wformat=2 -Winit-self -Winvalid-pch -Wmissing-format-attribute -Wmissing-include-dirs -Wpacked -Wredundant-decls -Wunreachable-code")
 
   set(LD_FLAGS "${LD_FLAGS} -Wl,-z,defs")
 
