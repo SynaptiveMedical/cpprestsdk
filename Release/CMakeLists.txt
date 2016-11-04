@@ -225,10 +225,10 @@ endfunction()
 
 add_subdirectory(src)
 
-if(BUILD_TESTS)
+if(BUILD_TESTS AND NOT PPLX_ONLY)
   add_subdirectory(tests)
 endif()
 
-if(BUILD_SAMPLES)
+if(BUILD_SAMPLES AND NOT PPLX_ONLY)
   add_subdirectory(samples)
 endif()

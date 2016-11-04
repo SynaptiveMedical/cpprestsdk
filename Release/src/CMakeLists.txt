@@ -3,6 +3,11 @@ if (NOT CPPREST_EXCLUDE_WEBSOCKETS)
   include_directories(${Boost_INCLUDE_DIR} ${OPENSSL_INCLUDE_DIR})
 endif()
 
+
+set(SOURCES_PPLX
+	pplx/pplx.cpp
+)
+
 set(SOURCES_COMMON
   http/client/http_client_msg.cpp
   http/client/x509_cert_utilities.cpp
@@ -16,7 +21,7 @@ set(SOURCES_COMMON
   json/json.cpp
   json/json_parsing.cpp
   json/json_serialization.cpp
-  pplx/pplx.cpp
+  ${SOURCES_PPLX}
   uri/uri.cpp
   uri/uri_builder.cpp
   uri/uri_parser.cpp
@@ -29,6 +34,46 @@ set(SOURCES_COMMON
 )
 
 # THE ORDER OF FILES IS VERY /VERY/ IMPORTANT
+if (PPLX_ONLY)
+	if(UNIX)
+		set(SOURCES
+		    ${SOURCES_PPLX}
+		    pplx/threadpool.cpp
+		  )
+		  if(APPLE)
+		    list(APPEND SOURCES
+		      pplx/pplxapple.cpp
+		    )
+		    find_library(COREFOUNDATION CoreFoundation "/")
+		    find_library(SECURITY Security "/")
+		    set(EXTRALINKS ${COREFOUNDATION} ${SECURITY})
+		  elseif(ANDROID)
+		    list(APPEND SOURCES
+		      pplx/pplxlinux.cpp
+		    )
+		  else()
+		    list(APPEND SOURCES pplx/pplxlinux.cpp)
+		  endif()
+	elseif(WIN32)
+		set(SOURCES
+		    ${SOURCES_PPLX}
+		    pplx/pplxwin.cpp
+		    pch/stdafx.cpp
+		  )
+		  set(EXTRALINKS
+		    Winhttp.lib
+		  )
+		  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNINGS}")
+		  if (${CMAKE_GENERATOR} MATCHES "Visual Studio .*")
+		    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Yustdafx.h /Zm200")
+		    set_source_files_properties(pch/stdafx.cpp PROPERTIES COMPILE_FLAGS "/Ycstdafx.h")
+		  endif()
+
+		  if (BUILD_SHARED_LIBS)
+		    add_definitions(-D_ASYNCRT_EXPORT -D_PPLX_EXPORT -D_USRDLL)
+		  endif()
+	endif()
+else()
 if(UNIX)
   set(SOURCES
     ${SOURCES_COMMON}
@@ -79,6 +124,7 @@ elseif(WIN32)
   if (BUILD_SHARED_LIBS)
     add_definitions(-D_ASYNCRT_EXPORT -D_PPLX_EXPORT -D_USRDLL)
   endif()
+endif()
 endif()
 
 add_library(${Casablanca_LIBRARY} ${SOURCES})
