@@ -20,10 +20,14 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FFBFD6C1-B525-4D35-AB64-A2FE9460B147}</ProjectGuid>
-    <SccProjectName>SAK</SccProjectName>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
     <Keyword>Win32Proj</Keyword>
     <VCTargetsPath Condition="'$(VCTargetsPath12)' != '' and '$(VSVersion)' == '' and $(VisualStudioVersion) == ''">$(VCTargetsPath12)</VCTargetsPath>
   </PropertyGroup>
@@ -134,7 +138,7 @@
     <ClInclude Include="..\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\stdafx.cpp" >
+    <ClCompile Include="..\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -145,9 +149,9 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <Target Name="PreBuildEvent">
-    <MakeDir Directories="$(MSBuildProjectDirectory)\css"/>
-    <MakeDir Directories="$(MSBuildProjectDirectory)\js"/>
-    <MakeDir Directories="$(MSBuildProjectDirectory)\image"/>
+    <MakeDir Directories="$(MSBuildProjectDirectory)\css" />
+    <MakeDir Directories="$(MSBuildProjectDirectory)\js" />
+    <MakeDir Directories="$(MSBuildProjectDirectory)\image" />
     <Copy SourceFiles="..\css\default.css" DestinationFolder="$(MSBuildProjectDirectory)\css\" ContinueOnError="true" OverwriteReadOnlyFiles="true" />
     <Copy SourceFiles="..\js\default.js" DestinationFolder="$(MSBuildProjectDirectory)\js\" ContinueOnError="true" OverwriteReadOnlyFiles="true" />
     <Copy SourceFiles="..\AppCode.html" DestinationFolder="$(MSBuildProjectDirectory)" ContinueOnError="true" OverwriteReadOnlyFiles="true" />
@@ -156,9 +160,9 @@
     <Copy SourceFiles="..\image\bing-logo.jpg" DestinationFolder="$(MSBuildProjectDirectory)\image\" ContinueOnError="true" OverwriteReadOnlyFiles="true" />
   </Target>
   <Target Name="PostBuildEvent">
-    <MakeDir Directories="$(OutDir)\css"/>
-    <MakeDir Directories="$(OutDir)\js"/>
-    <MakeDir Directories="$(OutDir)\image"/>
+    <MakeDir Directories="$(OutDir)\css" />
+    <MakeDir Directories="$(OutDir)\js" />
+    <MakeDir Directories="$(OutDir)\image" />
     <Copy SourceFiles="$(MSBuildProjectDirectory)\css\default.css" DestinationFolder="$(OutDir)\css\" ContinueOnError="true" OverwriteReadOnlyFiles="true" />
     <Copy SourceFiles="$(MSBuildProjectDirectory)\js\default.js" DestinationFolder="$(OutDir)\js\" ContinueOnError="true" OverwriteReadOnlyFiles="true" />
     <Copy SourceFiles="$(MSBuildProjectDirectory)\AppCode.html" DestinationFolder="$(OutDir)" ContinueOnError="true" OverwriteReadOnlyFiles="true" />
