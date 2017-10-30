@@ -6,7 +6,6 @@ enable_testing()
 
 set(WARNINGS)
 set(ANDROID_STL_FLAGS)
-SET(Boost_ADDITIONAL_VERSIONS "1.64.0" "1.64")
 
 # Platform (not compiler) specific settings
 if(IOS)
@@ -103,13 +102,14 @@ elseif(UNIX) # This includes OSX
     install(FILES ${CASA_HEADERS_DETAILS} DESTINATION include/cpprest/details)
   endif()
 elseif(WIN32)
+
   option(BUILD_SHARED_LIBS "Build shared Libraries." ON)
   option(BUILD_TESTS "Build tests." ON)
   option(BUILD_SAMPLES "Build samples." ON)
   option(CPPREST_EXCLUDE_WEBSOCKETS "Exclude websockets functionality." OFF)
-  option(Boost_USE_STATIC_LIBS ON)
-
-  add_definitions(-DUNICODE -D_UNICODE -DCPPREST_FORCE_PPLX)
+  option(Boost_USE_STATIC_LIBS "Boost static libraries" ON)
+  
+  add_definitions(-DUNICODE -D_UNICODE -DCPPREST_FORCE_PPLX -DBOOST_ALL_NO_LIB)
 
   if(NOT BUILD_SHARED_LIBS)
     # This causes cmake to not link the test libraries separately, but instead hold onto their object files.
@@ -123,7 +123,7 @@ elseif(WIN32)
   if (CPPREST_EXCLUDE_WEBSOCKETS)
     add_definitions(-DCPPREST_EXCLUDE_WEBSOCKETS=1)
   else()
-    find_package(Boost REQUIRED COMPONENTS random system thread filesystem chrono atomic)
+    find_package(Boost REQUIRED COMPONENTS random system thread filesystem chrono atomic regex)
     find_package(OpenSSL 1.0 REQUIRED)	
   endif()
 else()
@@ -164,7 +164,10 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -pthread -std=c++11 -fno-strict-aliasing -Wno-deprecated-declarations")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
   message("-- Setting msvc options")
+  
   set(WARNINGS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -bigobj")
+  
 else()
   message("-- Unknown compiler, success is doubtful.")
   message("CMAKE_CXX_COMPILER_ID=${CMAKE_CXX_COMPILER_ID}")
@@ -197,13 +200,13 @@ endif()
 
 set(Casablanca_LIBRARY ${LIB}cpprest)
 set(Casablanca_LIBRARIES ${Casablanca_LIBRARY}
+  ${Boost_REGEX_LIBRARY}
   ${Boost_FILESYSTEM_LIBRARY}
   ${Boost_SYSTEM_LIBRARY}
   ${Boost_THREAD_LIBRARY}
   ${Boost_ATOMIC_LIBRARY}
   ${Boost_CHRONO_LIBRARY}
   ${Boost_RANDOM_LIBRARY}
-  ${Boost_REGEX_LIBRARY}
   ${Boost_FRAMEWORK})
 
 # Everything in the project needs access to the casablanca include directories

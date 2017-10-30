@@ -65,3 +65,4 @@ Intermediate/
 !**/packages/build/
 
 /.vs
+/Release/buildmsvc
