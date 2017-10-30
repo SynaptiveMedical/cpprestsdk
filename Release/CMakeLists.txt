@@ -6,7 +6,7 @@ enable_testing()
 
 set(WARNINGS)
 set(ANDROID_STL_FLAGS)
-SET(Boost_ADDITIONAL_VERSIONS "1.64" "1.64.0")
+SET(Boost_ADDITIONAL_VERSIONS "1.64.0" "1.64")
 
 # Platform (not compiler) specific settings
 if(IOS)
