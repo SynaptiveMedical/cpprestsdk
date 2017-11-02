@@ -108,8 +108,9 @@ elseif(WIN32)
   option(BUILD_SAMPLES "Build samples." ON)
   option(CPPREST_EXCLUDE_WEBSOCKETS "Exclude websockets functionality." OFF)
   option(Boost_USE_STATIC_LIBS "Boost static libraries" ON)
+  option(OPENSSL_USE_STATIC_LIBS "OpenSSL static libraries" ON)
   
-  add_definitions(-DUNICODE -D_UNICODE -DCPPREST_FORCE_PPLX -DBOOST_ALL_NO_LIB)
+  add_definitions(-DMBCS -D_MBCS -DCPPREST_FORCE_PPLX -DBOOST_ALL_NO_LIB)
 
   if(NOT BUILD_SHARED_LIBS)
     # This causes cmake to not link the test libraries separately, but instead hold onto their object files.
@@ -125,6 +126,7 @@ elseif(WIN32)
   else()
     find_package(Boost REQUIRED COMPONENTS random system thread filesystem chrono atomic regex)
     find_package(OpenSSL 1.0 REQUIRED)	
+    find_package(zlib 1.2 REQUIRED)	
   endif()
 else()
   message(FATAL_ERROR "-- Unsupported Build Platform.")

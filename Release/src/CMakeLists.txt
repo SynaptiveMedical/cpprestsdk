@@ -93,6 +93,7 @@ target_link_libraries(${Casablanca_LIBRARY}
   ${EXTRALINKS}
   ${Boost_FRAMEWORK}
   ${OPENSSL_LIBRARIES}
+  ${ZLIB_LIBRARIES}
   ${COREFOUNDATION}
   ${ANDROID_STL_FLAGS}
   )
